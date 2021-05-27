@@ -1,3 +1,3 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/steshi/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/steshi/frontend-project-lvl3/actions)
-[![Node CI](https://github.com/steshi/frontend-project-lvl2/actions/workflows/nodejs.yml/badge.svg)](https://github.com/steshi/frontend-project-lvl2/actions/workflows/nodejs.yml)
+[![Node CI](https://github.com/steshi/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg)](https://github.com/steshi/frontend-project-lvl3/actions/workflows/nodejs.yml)
