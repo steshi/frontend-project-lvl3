@@ -1,5 +1,5 @@
 import { test, expect, describe } from '@jest/globals';
-import sum from '../bin/firstbin';
+import sum from '../bin/firstbin.js';
 
 describe('test description', () => {
   test('test Sum', () => {

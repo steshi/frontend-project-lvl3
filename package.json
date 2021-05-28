@@ -13,7 +13,7 @@
   "author": "Stepan Shi",
   "type": "module",
   "bin": {
-    "gendiff": "bin/genDiff.js"
+    "gendiff": "bin/firstbin.js"
   },
   "license": "ISC",
   "bugs": {
