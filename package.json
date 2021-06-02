@@ -12,9 +12,6 @@
   },
   "author": "Stepan Shi",
   "type": "module",
-  "bin": {
-    "gendiff": "bin/firstbin.js"
-  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/steshi/frontend-project-lvl3/issues"
