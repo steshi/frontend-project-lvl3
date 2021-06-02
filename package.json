@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "third JS project - RSS",
   "main": "index.js",
+  "scripts": {
+    "test": "npx jest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/steshi/frontend-project-lvl3.git"
