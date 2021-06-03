@@ -3,28 +3,35 @@
   "version": "1.0.0",
   "description": "third JS project - RSS",
   "main": "index.js",
+  "type": "module",
+  "author": "Stepan Shi",
+  "license": "ISC",
   "scripts": {
-    "test": "npx jest"
+    "test": "npx jest",
+    "build": "webpack "
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/steshi/frontend-project-lvl3.git"
   },
-  "author": "Stepan Shi",
-  "type": "module",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/steshi/frontend-project-lvl3/issues"
   },
   "homepage": "https://github.com/steshi/frontend-project-lvl3#readme",
   "devDependencies": {
     "@jest/globals": "^27.0.1",
+    "css-loader": "^5.2.6",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-jest": "^24.3.6",
+    "html-webpack-plugin": "^5.3.1",
     "jest": "^27.0.1",
+    "style-loader": "^2.0.0",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.0.1"
   }
 }
