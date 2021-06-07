@@ -8,7 +8,7 @@
   "license": "ISC",
   "scripts": {
     "test": "npx jest",
-    "build": "webpack"
+    "build": "webpack "
   },
   "repository": {
     "type": "git",
