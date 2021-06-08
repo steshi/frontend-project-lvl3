@@ -4,4 +4,4 @@
 <a href="https://codeclimate.com/github/steshi/frontend-project-lvl3/maintainability"><img src="https://api.codeclimate.com/v1/badges/9e14846f2ac0d5f4b870/maintainability" /></a>
 <a href="https://codeclimate.com/github/steshi/frontend-project-lvl3/test_coverage"><img src="https://api.codeclimate.com/v1/badges/9e14846f2ac0d5f4b870/test_coverage" /></a>
 <br>
-<a href="http://rss-agregator-ste-shi.vercel.app/">RSS agregator</a>
+<a href="http://rss-agregator-ste-shi.vercel.app/">RSS agregator</a> 
