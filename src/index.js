@@ -1,20 +1,32 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import 'i18next';
+import _ from 'lodash';
+import validate from './validationURL.js';
+import watchedState from './view.js';
+import parse from './parseRSS.js';
 
-function component() {
-  const div = document.createElement('div');
-  div.textContent = 'KEEEEEEEEEEkeeee';
-  div.classList.add('container');
-  const form = document.createElement('form');
-  form.classList.add('form1');
-  const button = document.createElement('button');
-  button.classList.add('btn', 'btn-primary');
-  button.type = 'button';
-  button.textContent = 'Small button';
-  const input = document.createElement('input');
-  form.append(button, input);
-  div.append(form);
-  return div;
-}
+const getRSS = (url) => axios.get(url).then((result) => result);
 
-document.body.append(component());
+const form = document.querySelector('form', '.rss-form');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const rssUrl = formData.get('url');
+  const errors = validate({ url: rssUrl }, watchedState);
+  console.log('cccccccc', errors);
+  watchedState.rssForm.valid = _.isEqual(errors, []);
+  watchedState.rssForm.validationErrors = errors;
+
+  // watchedState.rssForm.state = 'pending!';
+  getRSS(rssUrl)
+    .then((response) => {
+      if (response.status === 200) {
+        watchedState.rssForm.state = 'successfully responsed';
+        const responseList = parse(response);
+        console.log(3333333, responseList);
+        watchedState.rssForm.added.push(rssUrl);
+      }
+    });
+});
