@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 const validate = (url, state) => {
   const schema = yup.object().shape({
-    url: yup.string().required().url().notOneOf(state.rssForm.added, 'This RSS already added'),
+    url: yup.string().required().url().notOneOf(state.rssForm.addedList, 'This RSS already added'),
   });
 
   try {
