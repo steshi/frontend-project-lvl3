@@ -26,7 +26,7 @@ form.addEventListener('submit', (e) => {
         } else {
           const responseList = parse(response.data.contents);
           watchedState.data.push(responseList);
-          console.log('sucessfully resssssssssponsed', response.data.contents);
+          // console.log('sucessfully resssssssssponsed', response.data.contents);
           watchedState.rssForm.addedList.push(rssUrl);
           watchedState.rssForm.state = 'successfully responsed';
         }
