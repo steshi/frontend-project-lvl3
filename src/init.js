@@ -1,18 +1,19 @@
 import i18n from 'i18next';
 import { handlerForm, handlerLangButton } from './handlers.js';
-import en from './locales/en.js';
-import ru from './locales/ru.js';
+import locales from './locales/locales.js';
 
 const runApp = () => {
   const state = {
     lang: 'ru',
-    data: [],
+    data: {
+      posts: [],
+      feeds: [],
+    },
     rssForm: {
       feedback: '',
       state: 'init',
       valid: '',
       alreadyAddedRsss: [],
-      // errors: [],
     },
   };
   const i18nInstance = i18n.createInstance();
@@ -20,10 +21,7 @@ const runApp = () => {
     .init({
       lng: 'ru',
       debug: true,
-      resources: {
-        ru,
-        en,
-      },
+      resources: locales,
     });
   const rusButton = document.querySelector('#rusButton');
   rusButton.addEventListener('click', () => {
@@ -35,7 +33,6 @@ const runApp = () => {
     i18nInstance.changeLanguage('en');
     handlerLangButton(state, i18nInstance);
   });
-
   const form = document.querySelector('form', '.rss-form');
   form.addEventListener('submit', (e) => handlerForm(state, i18nInstance, e));
 };

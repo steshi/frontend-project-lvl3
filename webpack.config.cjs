@@ -15,6 +15,10 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
@@ -22,6 +26,7 @@ module.exports = {
       title: 'webpack hmmm',
       template: path.resolve(__dirname, './src/template.html'),
       filename: 'index.html',
+      favicon: './src/rss.png',
     }),
   ],
 };

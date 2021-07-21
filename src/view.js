@@ -1,21 +1,18 @@
 import onChange from 'on-change';
 
 const renderData = (state, i18nInstance) => {
-  if (state.data.length > 0) {
+  if (state.data.feeds.length > 0) {
     const posts = document.querySelector('.posts');
     posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
-    const postsHTML = state.data
-      .map((rss) => rss.posts
-        .map((post) => `<li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
+    const postsHTML = state.data.posts
+      .map((post) => `<li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
         <a href="${post.link}" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a></li>`)
-        .join(''))
       .join('');
     posts.querySelector('.postsList').innerHTML = postsHTML;
-
     const feeds = document.querySelector('.feeds');
     feeds.innerHTML = `<div class="card-body feeds-contatiner"><h2 class="card-title h4">${i18nInstance.t('feeds')}</h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>`;
-    const feedsHTML = state.data
-      .map((rss) => `<li><h3 class="h6 m-0">${rss.feed.title}</h3><p class="m-0 small text-black-50">${rss.feed.description}</p></li>`)
+    const feedsHTML = state.data.feeds
+      .map((feed) => `<li><h3 class="h6 m-0">${feed.title}</h3><p class="m-0 small text-black-50">${feed.description}</p></li>`)
       .join('');
     feeds.querySelector('.feedsList').innerHTML = feedsHTML;
   }
