@@ -61,6 +61,8 @@ const render = (state, i18nInstance) => {
       renderData(state, i18nInstance);
       break;
     default:
+      renderData(state, i18nInstance);
+      break;
   }
 };
 

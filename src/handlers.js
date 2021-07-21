@@ -17,15 +17,13 @@ const additionalResponse = (state) => {
       .then((response) => {
         if (response.data.status.http_code === 200) {
           const responseList = parse(response.data.contents);
-          console.log('POSTS in state', 1111111111111, state.data.posts);
-          console.log('POSTS in current response', 222222222, responseList.posts);
-          // const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
-          // console.log('NEW POSTS', 333333, newPosts);
-          // state.data.posts = [...state.data.posts, ...newPosts];
+          const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
+          state.rssForm.state = 'start';
+          state.data.posts = [...newPosts, ...state.data.posts];
         }
       });
   });
-  setTimeout(() => additionalResponse(state), 20000);
+  setTimeout(() => additionalResponse(state), 5000);
 };
 
 const makeResponse = (state, link) => {
@@ -36,8 +34,8 @@ const makeResponse = (state, link) => {
         state.rssForm.state = 'bad responsed';
       } else {
         const responseList = parse(response.data.contents);
-        state.data.posts = [...state.data.posts, ...responseList.posts];
-        state.data.feeds = [...state.data.feeds, responseList.feed];
+        state.data.posts = [...responseList.posts, ...state.data.posts];
+        state.data.feeds = [responseList.feed, ...state.data.feeds];
         state.rssForm.alreadyAddedRsss.push(link);
         state.rssForm.feedback = 'success';
         state.rssForm.state = 'successfully responsed';
