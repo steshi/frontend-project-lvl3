@@ -19,11 +19,17 @@ const additionalResponse = (state) => {
           const responseList = parse(response.data.contents);
           const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
           state.rssForm.state = 'start';
-          state.data.posts = [...newPosts, ...state.data.posts];
+          const posts = [...newPosts, ...state.data.posts];
+          posts.forEach((post) => {
+            post.id = posts.length - posts.indexOf(post);
+          });
+          const newUiStates = newPosts.map(({ id }) => ({ postId: id, viewed: false }));
+          state.stateUi = [...newUiStates, ...state.stateUi];
+          state.data.posts = posts;
         }
       });
   });
-  setTimeout(() => additionalResponse(state), 5000);
+  setTimeout(() => additionalResponse(state), 15000);
 };
 
 const makeResponse = (state, link) => {
@@ -34,7 +40,13 @@ const makeResponse = (state, link) => {
         state.rssForm.state = 'bad responsed';
       } else {
         const responseList = parse(response.data.contents);
-        state.data.posts = [...responseList.posts, ...state.data.posts];
+        const posts = [...responseList.posts, ...state.data.posts];
+        posts.forEach((post) => {
+          post.id = posts.length - posts.indexOf(post);
+        });
+        const newUiStates = responseList.posts.map(({ id }) => ({ postId: id, viewed: false }));
+        state.stateUi = [...newUiStates, ...state.stateUi];
+        state.data.posts = posts;
         state.data.feeds = [responseList.feed, ...state.data.feeds];
         state.rssForm.alreadyAddedRsss.push(link);
         state.rssForm.feedback = 'success';

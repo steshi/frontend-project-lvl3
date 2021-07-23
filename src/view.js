@@ -1,14 +1,55 @@
+/* eslint-disable no-param-reassign */
 import onChange from 'on-change';
+
+const renderStateUi = (state, e, i18nInstance) => {
+  const postLi = e.target.parentNode;
+  const liId = Number.parseInt(postLi.id, 10);
+  state.stateUi.forEach((linkState) => {
+    if (linkState.postId === liId) {
+      linkState.viewed = true;
+    }
+  });
+  const modal = document.querySelector('#detailModal');
+  const post = state.data.posts.filter((el) => el.id === liId)[0];
+  modal.innerHTML = `<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detailModalLabel">${post.title}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        ${post.description}
+        </div>
+        <div class="modal-footer">
+        <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('details')}</button></a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('close')}</button>
+        </div>
+      </div>
+    </div>`;
+};
+
+const viewedOrNotClass = (state, id) => {
+  const filtered = state.stateUi.filter((element) => element.postId === id);
+  return filtered[0].viewed ? 'fw-normal' : 'fw-bold';
+};
 
 const renderData = (state, i18nInstance) => {
   if (state.data.feeds.length > 0) {
     const posts = document.querySelector('.posts');
     posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
     const postsHTML = state.data.posts
-      .map((post) => `<li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
-        <a href="${post.link}" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a></li>`)
+      .map((post) => `<li id="${post.id}" class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
+        <a href="${post.link}" class="${viewedOrNotClass(state, post.id)}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detailModal">
+        ${i18nInstance.t('show')}
+      </button></li>`)
       .join('');
     posts.querySelector('.postsList').innerHTML = postsHTML;
+    const buttons = posts.querySelectorAll('button');
+    buttons.forEach((button) => button.addEventListener('click', (e) => {
+      renderStateUi(state, e, i18nInstance);
+    }));
+
     const feeds = document.querySelector('.feeds');
     feeds.innerHTML = `<div class="card-body feeds-contatiner"><h2 class="card-title h4">${i18nInstance.t('feeds')}</h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>`;
     const feedsHTML = state.data.feeds

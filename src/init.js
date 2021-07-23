@@ -9,6 +9,7 @@ const runApp = () => {
       posts: [],
       feeds: [],
     },
+    stateUi: [],
     rssForm: {
       feedback: '',
       state: 'init',
