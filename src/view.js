@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
 
-const renderStateUi = (state, e, i18nInstance) => {
+const renderModal = (state, e, i18nInstance) => {
   const postLi = e.target.parentNode;
   const liId = Number.parseInt(postLi.id, 10);
   state.stateUi.forEach((linkState) => {
@@ -47,7 +47,16 @@ const renderData = (state, i18nInstance) => {
     posts.querySelector('.postsList').innerHTML = postsHTML;
     const buttons = posts.querySelectorAll('button');
     buttons.forEach((button) => button.addEventListener('click', (e) => {
-      renderStateUi(state, e, i18nInstance);
+      renderModal(state, e, i18nInstance);
+    }));
+    const links = posts.querySelectorAll('a');
+    links.forEach((link) => link.addEventListener('click', (e) => {
+      const liId = parseInt(e.target.parentElement.id, 10);
+      state.stateUi.forEach((linkState) => {
+        if (linkState.postId === liId) {
+          linkState.viewed = true;
+        }
+      });
     }));
 
     const feeds = document.querySelector('.feeds');

@@ -29,7 +29,7 @@ const additionalResponse = (state) => {
         }
       });
   });
-  setTimeout(() => additionalResponse(state), 15000);
+  setTimeout(() => additionalResponse(state), 5000);
 };
 
 const makeResponse = (state, link) => {

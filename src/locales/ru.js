@@ -3,13 +3,13 @@ export default {
     feeds: 'Фиды',
     posts: 'Посты',
     show: 'Просмотр',
-    success: 'RSS успешно добавлен',
+    success: 'RSS успешно загружен',
     details: 'Перейти и прочитать',
     close: 'Закрыть',
     errors: {
-      notValidLink: 'Этот URL не валиден',
-      alreadyAddedLink: 'Этот RSS был добавлен ранее',
-      noValidRss: 'По данному адресу нет валидных RSS',
+      notValidLink: 'Ссылка должна быть валидным URL',
+      alreadyAddedLink: 'RSS уже существует',
+      noValidRss: 'Ресурс не содержит валидный RSS',
     },
   },
 };
