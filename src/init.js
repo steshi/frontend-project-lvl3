@@ -23,20 +23,18 @@ const runApp = () => {
       lng: 'ru',
       debug: true,
       resources: locales,
+    })
+    .then((t) => {
+      // document.querySelector('#rusButton').addEventListener('click', () => {
+      //   t.changeLanguage('ru');
+      //   handlerLangButton(state, t);
+      // });
+      // document.querySelector('#engButton').addEventListener('click', () => {
+      //   t.changeLanguage('en');
+      //   handlerLangButton(state, t);
+      // });
+      document.querySelector('form', '.rss-form').addEventListener('submit', (e) => handlerForm(state, t, e));
     });
-  const rusButton = document.querySelector('#rusButton');
-  console.log(2222222222);
-  rusButton.addEventListener('click', () => {
-    i18nInstance.changeLanguage('ru');
-    handlerLangButton(state, i18nInstance);
-  });
-  const engButton = document.querySelector('#engButton');
-  engButton.addEventListener('click', () => {
-    i18nInstance.changeLanguage('en');
-    handlerLangButton(state, i18nInstance);
-  });
-  const form = document.querySelector('form', '.rss-form');
-  form.addEventListener('submit', (e) => handlerForm(state, i18nInstance, e));
 };
 
 export default runApp;

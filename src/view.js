@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
 
-const renderModal = (state, e, i18nInstance) => {
+const renderModal = (state, e, t) => {
   const postLi = e.target.parentNode;
   const liId = Number.parseInt(postLi.id, 10);
   state.stateUi.forEach((linkState) => {
@@ -21,8 +21,8 @@ const renderModal = (state, e, i18nInstance) => {
         ${post.description}
         </div>
         <div class="modal-footer">
-        <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('details')}</button></a>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('close')}</button>
+        <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${t('details')}</button></a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${t('close')}</button>
         </div>
       </div>
     </div>`;
@@ -33,21 +33,21 @@ const viewedOrNotClass = (state, id) => {
   return filtered[0].viewed ? 'fw-normal' : 'fw-bold';
 };
 
-const renderData = (state, i18nInstance) => {
+const renderData = (state, t) => {
   if (state.data.feeds.length > 0) {
     const posts = document.querySelector('.posts');
-    posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
+    posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
     const postsHTML = state.data.posts
       .map((post) => `<li id="${post.id}" class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
         <a href="${post.link}" class="${viewedOrNotClass(state, post.id)}" target="_blank" rel="noopener noreferrer">${post.title}</a>
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detailModal">
-        ${i18nInstance.t('show')}
+        ${t('show')}
       </button></li>`)
       .join('');
     posts.querySelector('.postsList').innerHTML = postsHTML;
     const buttons = posts.querySelectorAll('button');
     buttons.forEach((button) => button.addEventListener('click', (e) => {
-      renderModal(state, e, i18nInstance);
+      renderModal(state, e, t);
     }));
     const links = posts.querySelectorAll('a');
     links.forEach((link) => link.addEventListener('click', (e) => {
@@ -60,7 +60,7 @@ const renderData = (state, i18nInstance) => {
     }));
 
     const feeds = document.querySelector('.feeds');
-    feeds.innerHTML = `<div class="card-body feeds-contatiner"><h2 class="card-title h4">${i18nInstance.t('feeds')}</h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>`;
+    feeds.innerHTML = `<div class="card-body feeds-contatiner"><h2 class="card-title h4">${t('feeds')}</h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>`;
     const feedsHTML = state.data.feeds
       .map((feed) => `<li><h3 class="h6 m-0">${feed.title}</h3><p class="m-0 small text-black-50">${feed.description}</p></li>`)
       .join('');
@@ -73,54 +73,54 @@ const input = document.querySelector('#url-input');
 const form = document.querySelector('form');
 const addButton = document.querySelector('.btn-primary');
 
-const renderSuccess = (state, i18nInstance) => {
+const renderSuccess = (state, t) => {
   addButton.disabled = false;
   input.classList.remove('is-invalid');
   feedback.classList.remove('text-danger');
   feedback.classList.add('text-success');
-  feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+  feedback.innerText = t(state.rssForm.feedback);
   form.reset();
   input.focus();
 };
 
-const renderFail = (state, i18nInstance) => {
+const renderFail = (state, t) => {
   addButton.disabled = false;
   if (feedback.classList.contains('text-success')) {
     feedback.classList.replace('text-success', 'text-danger');
   }
   input.classList.add('is-invalid');
-  feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+  feedback.innerText = t(state.rssForm.feedback);
 };
 
 const renderPending = () => {
   addButton.disabled = true;
 };
-const render = (state, i18nInstance) => {
+const render = (state, t) => {
   switch (state.rssForm.state) {
     case 'pending':
       renderPending();
       break;
     case 'failed':
-      renderFail(state, i18nInstance);
+      renderFail(state, t);
       break;
     case 'bad responsed':
-      renderFail(state, i18nInstance);
+      renderFail(state, t);
       break;
     case 'successfully responsed':
-      renderSuccess(state, i18nInstance);
-      renderData(state, i18nInstance);
+      renderSuccess(state, t);
+      renderData(state, t);
       break;
     default:
-      renderData(state, i18nInstance);
+      renderData(state, t);
       break;
   }
 };
 
-const visualize = (state, i18nInstance) => {
+const visualize = (state, t) => {
   const watchedState = onChange(state, (path, value) => {
     console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
-    render(state, i18nInstance);
-    if (path === 'lang') renderData(state, i18nInstance);
+    render(state, t);
+    if (path === 'lang') renderData(state, t);
   });
   return watchedState;
 };
