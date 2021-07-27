@@ -25,6 +25,7 @@ const runApp = () => {
       resources: locales,
     });
   const rusButton = document.querySelector('#rusButton');
+  console.log(11111111, rusButton);
   rusButton.addEventListener('click', () => {
     i18nInstance.changeLanguage('ru');
     handlerLangButton(state, i18nInstance);
