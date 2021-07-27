@@ -24,16 +24,16 @@ const runApp = () => {
       debug: true,
       resources: locales,
     })
-    .then((t) => {
-      // document.querySelector('#rusButton').addEventListener('click', () => {
-      //   t.changeLanguage('ru');
-      //   handlerLangButton(state, t);
-      // });
-      // document.querySelector('#engButton').addEventListener('click', () => {
-      //   t.changeLanguage('en');
-      //   handlerLangButton(state, t);
-      // });
-      document.querySelector('form', '.rss-form').addEventListener('submit', (e) => handlerForm(state, t, e));
+    .then(() => {
+      document.querySelectorAll('.langButton')
+        .forEach((button) => {
+          const { lang } = button.dataset;
+          button.addEventListener('click', () => {
+            i18nInstance.changeLanguage(lang);
+            handlerLangButton(state, i18nInstance);
+          });
+        });
+      document.querySelector('form', '.rss-form').addEventListener('submit', (event) => handlerForm(state, i18nInstance, event));
     });
 };
 

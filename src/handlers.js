@@ -5,10 +5,9 @@ import validate from './validationURL.js';
 import parse from './parseRSS.js';
 import visualize from './view.js';
 
-export const handlerLangButton = (state, t) => {
-  console.log(3333333333333);
-  const watchedState = visualize(state, t);
-  watchedState.lang = t.language;
+export const handlerLangButton = (state, i18nInstance) => {
+  const watchedState = visualize(state, i18nInstance);
+  watchedState.lang = i18nInstance.language;
 };
 
 const additionalResponse = (state) => {
@@ -30,7 +29,7 @@ const additionalResponse = (state) => {
         }
       });
   });
-  setTimeout(() => additionalResponse(state), 5000);
+  setTimeout(() => additionalResponse(state), 55000);
 };
 
 const makeResponse = (state, link) => {
@@ -57,8 +56,8 @@ const makeResponse = (state, link) => {
     .then(() => additionalResponse(state));
 };
 
-export const handlerForm = (state, t, e) => {
-  const watchedState = visualize(state, t);
+export const handlerForm = (state, i18nInstance, e) => {
+  const watchedState = visualize(state, i18nInstance);
   e.preventDefault();
   watchedState.rssForm.state = '----------------start-----------------';
   const formData = new FormData(e.target);
