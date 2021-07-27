@@ -6,6 +6,7 @@ import parse from './parseRSS.js';
 import visualize from './view.js';
 
 export const handlerLangButton = (state, i18nInstance) => {
+  console.log(3333333333333);
   const watchedState = visualize(state, i18nInstance);
   watchedState.lang = i18nInstance.language;
 };
