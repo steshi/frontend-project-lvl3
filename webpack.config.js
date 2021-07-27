@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 const distPath = resolve(process.cwd(), 'dist');
 
 export default {
-  mode: 'development',
+  // mode: 'development',
   entry: '/index.js',
   output: {
     filename: 'main.js',
