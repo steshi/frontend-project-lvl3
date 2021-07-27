@@ -1,13 +1,14 @@
-const path = require('path');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+import { resolve } from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-module.exports = {
+const distPath = resolve(process.cwd(), 'dist');
+
+export default {
   mode: 'development',
   entry: '/index.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, './dist'),
+    path: distPath,
   },
   module: {
     rules: [
@@ -24,8 +25,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'webpack hmmm',
-      template: path.resolve(__dirname, '/index.html'),
-      filename: 'index.html',
+      template: './index.html',
       favicon: './src/rss.png',
     }),
   ],
