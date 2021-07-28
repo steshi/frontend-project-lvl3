@@ -109,12 +109,10 @@ const render = (state, i18nInstance) => {
       renderFormFail(state, i18nInstance, elements);
       break;
     case 'successfully responsed':
-      console.log(33333333333, document.body.innerHTML);
       renderFormSuccess(state, i18nInstance, elements);
       renderData(state, i18nInstance);
       break;
     default:
-      console.log(44444444);
       elements.feedback.innerText = (elements.feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;

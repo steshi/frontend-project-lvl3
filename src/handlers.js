@@ -45,7 +45,7 @@ const makeResponse = (state, link) => {
       state.rssForm.alreadyAddedRsss.push(link);
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
-      console.log(222222222222, document.body.innerHTML);
+      console.log(222222222222, 'sucess', document.body.innerHTML);
     })
     .catch(() => {
       state.rssForm.feedback = 'errors.noValidRss';
