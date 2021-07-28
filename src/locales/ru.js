@@ -1,6 +1,5 @@
 export default {
   translation: {
-    ru: 'russian',
     feeds: 'Фиды',
     posts: 'Посты',
     show: 'Просмотр',

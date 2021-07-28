@@ -109,6 +109,7 @@ const render = (state, i18nInstance) => {
       renderFormFail(state, i18nInstance, elements);
       break;
     case 'successfully responsed':
+      console.log(33333333333);
       renderFormSuccess(state, i18nInstance, elements);
       renderData(state, i18nInstance);
       break;
