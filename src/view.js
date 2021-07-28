@@ -114,6 +114,7 @@ const render = (state, i18nInstance) => {
       renderData(state, i18nInstance);
       break;
     default:
+      console.log(44444444);
       elements.feedback.innerText = (elements.feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;
