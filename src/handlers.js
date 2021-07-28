@@ -5,10 +5,10 @@ import validate from './validationURL.js';
 import parse from './parseRSS.js';
 import visualize from './view.js';
 
-// export const handlerLangButton = (state, i18nInstance) => {
-//   const watchedState = visualize(state, i18nInstance);
-//   watchedState.lang = i18nInstance.language;
-// };
+export const handlerLangButton = (state, i18nInstance) => {
+  const watchedState = visualize(state, i18nInstance);
+  watchedState.lang = i18nInstance.language;
+};
 
 const additionalResponse = (state) => {
   const added = state.rssForm.alreadyAddedRsss;
@@ -56,7 +56,7 @@ const makeResponse = (state, link) => {
     .then(() => additionalResponse(state));
 };
 
-export default (state, i18nInstance, e) => {
+export const handlerForm = (state, i18nInstance, e) => {
   const watchedState = visualize(state, i18nInstance);
   e.preventDefault();
   watchedState.rssForm.state = '----------------start-----------------';
