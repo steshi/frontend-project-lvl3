@@ -96,7 +96,7 @@ const render = (state, i18nInstance) => {
     feedback: document.querySelector('.feedback'),
     input: document.querySelector('#url-input'),
     form: document.querySelector('form'),
-    addButton: document.querySelector('.btn-primary'),
+    addButton: document.querySelector('[aria-label="add"]'),
   };
   switch (state.rssForm.state) {
     case 'pending':
