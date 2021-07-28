@@ -15,43 +15,40 @@ const additionalResponse = (state) => {
   added.forEach((link) => {
     getRSS(link)
       .then((response) => {
-        if (response.data.status.http_code === 200) {
-          const responseList = parse(response.data.contents);
-          const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
-          state.rssForm.state = 'start';
-          const posts = [...newPosts, ...state.data.posts];
-          posts.forEach((post) => {
-            post.id = posts.length - posts.indexOf(post);
-          });
-          const newUiStates = newPosts.map(({ id }) => ({ postId: id, viewed: false }));
-          state.stateUi = [...newUiStates, ...state.stateUi];
-          state.data.posts = posts;
-        }
+        const responseList = parse(response.data.contents);
+        const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
+        state.rssForm.state = 'start';
+        const posts = [...newPosts, ...state.data.posts];
+        posts.forEach((post) => {
+          post.id = posts.length - posts.indexOf(post);
+        });
+        const newUiStates = newPosts.map(({ id }) => ({ postId: id, viewed: false }));
+        state.stateUi = [...newUiStates, ...state.stateUi];
+        state.data.posts = posts;
       });
   });
-  setTimeout(() => additionalResponse(state), 55000);
+  setTimeout(() => additionalResponse(state), 5000);
 };
 
 const makeResponse = (state, link) => {
   getRSS(link)
     .then((response) => {
-      if (response.data.status.http_code !== 200) {
-        state.rssForm.feedback = 'errors.noValidRss';
-        state.rssForm.state = 'bad responsed';
-      } else {
-        const responseList = parse(response.data.contents);
-        const posts = [...responseList.posts, ...state.data.posts];
-        posts.forEach((post) => {
-          post.id = posts.length - posts.indexOf(post);
-        });
-        const newUiStates = responseList.posts.map(({ id }) => ({ postId: id, viewed: false }));
-        state.stateUi = [...newUiStates, ...state.stateUi];
-        state.data.posts = posts;
-        state.data.feeds = [responseList.feed, ...state.data.feeds];
-        state.rssForm.alreadyAddedRsss.push(link);
-        state.rssForm.feedback = 'success';
-        state.rssForm.state = 'successfully responsed';
-      }
+      const responseList = parse(response.data.contents);
+      const posts = [...responseList.posts, ...state.data.posts];
+      posts.forEach((post) => {
+        post.id = posts.length - posts.indexOf(post);
+      });
+      const newUiStates = responseList.posts.map(({ id }) => ({ postId: id, viewed: false }));
+      state.stateUi = [...newUiStates, ...state.stateUi];
+      state.data.posts = posts;
+      state.data.feeds = [responseList.feed, ...state.data.feeds];
+      state.rssForm.alreadyAddedRsss.push(link);
+      state.rssForm.feedback = 'success';
+      state.rssForm.state = 'successfully responsed';
+    })
+    .catch(() => {
+      state.rssForm.feedback = 'errors.noValidRss';
+      state.rssForm.state = 'bad responsed';
     })
     .then(() => additionalResponse(state));
 };
