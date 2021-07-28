@@ -97,6 +97,7 @@ const renderFormPending = () => {
 };
 
 const render = (state, i18nInstance) => {
+  const feedb = document.querySelector('.feedback');
   switch (state.rssForm.state) {
     case 'pending':
       renderFormPending();
@@ -112,7 +113,7 @@ const render = (state, i18nInstance) => {
       renderData(state, i18nInstance);
       break;
     default:
-      feedback.innerText = (feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
+      feedb.innerText = (feedb.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;
   }
