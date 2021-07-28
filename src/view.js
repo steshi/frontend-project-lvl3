@@ -95,6 +95,7 @@ const renderFormFail = (state, i18nInstance) => {
 const renderFormPending = () => {
   addButton.disabled = true;
 };
+
 const render = (state, i18nInstance) => {
   switch (state.rssForm.state) {
     case 'pending':
@@ -111,15 +112,15 @@ const render = (state, i18nInstance) => {
       renderData(state, i18nInstance);
       break;
     default:
-      feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+      feedback.innerText = (feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;
   }
 };
 
 const visualize = (state, i18nInstance) => {
-  const watchedState = onChange(state, (path, value) => {
-    console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
+  const watchedState = onChange(state, () => {
+    // console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
     render(state, i18nInstance);
   });
   return watchedState;
