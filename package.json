@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "third JS project - RSS",
-  "main": "index.js",
+  "main": "src/init.js",
   "type": "module",
   "author": "Stepan Shi",
   "license": "ISC",

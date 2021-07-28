@@ -1,6 +1,11 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
 
+const feedback = document.querySelector('.feedback');
+const input = document.querySelector('#url-input');
+const form = document.querySelector('form');
+const addButton = document.querySelector('.btn-primary');
+
 const renderModal = (state, event, i18nInstance) => {
   const postLi = event.target.parentNode;
   const liId = Number.parseInt(postLi.id, 10);
@@ -67,11 +72,6 @@ const renderData = (state, i18nInstance) => {
     feeds.querySelector('.feedsList').innerHTML = feedsHTML;
   }
 };
-
-const feedback = document.querySelector('.feedback');
-const input = document.querySelector('#url-input');
-const form = document.querySelector('form');
-const addButton = document.querySelector('.btn-primary');
 
 const renderFormSuccess = (state, i18nInstance) => {
   addButton.disabled = false;

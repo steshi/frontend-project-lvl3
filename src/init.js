@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { handlerForm, handlerLangButton } from './handlers.js';
 import locales from './locales/locales.js';
 
-const runApp = () => {
+export default () => {
   const state = {
     lang: 'ru',
     data: {
@@ -36,5 +36,3 @@ const runApp = () => {
       document.querySelector('form', '.rss-form').addEventListener('submit', (event) => handlerForm(state, i18nInstance, event));
     });
 };
-
-export default runApp;
