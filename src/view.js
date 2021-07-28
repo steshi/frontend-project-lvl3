@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
 
-const feedback = document.querySelector('.feedback');
-const input = document.querySelector('#url-input');
-const form = document.querySelector('form');
-const addButton = document.querySelector('.btn-primary');
-
 const renderModal = (state, event, i18nInstance) => {
   const postLi = event.target.parentNode;
   const liId = Number.parseInt(postLi.id, 10);
@@ -73,47 +68,52 @@ const renderData = (state, i18nInstance) => {
   }
 };
 
-const renderFormSuccess = (state, i18nInstance) => {
-  addButton.disabled = false;
-  input.classList.remove('is-invalid');
-  feedback.classList.remove('text-danger');
-  feedback.classList.add('text-success');
-  feedback.innerText = i18nInstance.t(state.rssForm.feedback);
-  form.reset();
-  input.focus();
+const renderFormSuccess = (state, i18nInstance, elements) => {
+  elements.addButton.disabled = false;
+  elements.input.classList.remove('is-invalid');
+  elements.feedback.classList.remove('text-danger');
+  elements.feedback.classList.add('text-success');
+  elements.feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+  elements.form.reset();
+  elements.input.focus();
 };
 
-const renderFormFail = (state, i18nInstance) => {
-  addButton.disabled = false;
-  if (feedback.classList.contains('text-success')) {
-    feedback.classList.replace('text-success', 'text-danger');
+const renderFormFail = (state, i18nInstance, elements) => {
+  elements.addButton.disabled = false;
+  if (elements.feedback.classList.contains('text-success')) {
+    elements.feedback.classList.replace('text-success', 'text-danger');
   }
-  input.classList.add('is-invalid');
-  feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+  elements.input.classList.add('is-invalid');
+  elements.feedback.innerText = i18nInstance.t(state.rssForm.feedback);
 };
 
-const renderFormPending = () => {
-  addButton.disabled = true;
+const renderFormPending = (elements) => {
+  elements.addButton.disabled = true;
 };
 
 const render = (state, i18nInstance) => {
-  const feedb = document.querySelector('.feedback');
+  const elements = {
+    feedback: document.querySelector('.feedback'),
+    input: document.querySelector('#url-input'),
+    form: document.querySelector('form'),
+    addButton: document.querySelector('.btn-primary'),
+  };
   switch (state.rssForm.state) {
     case 'pending':
-      renderFormPending();
+      renderFormPending(elements);
       break;
     case 'failed':
-      renderFormFail(state, i18nInstance);
+      renderFormFail(state, i18nInstance, elements);
       break;
     case 'bad responsed':
-      renderFormFail(state, i18nInstance);
+      renderFormFail(state, i18nInstance, elements);
       break;
     case 'successfully responsed':
-      renderFormSuccess(state, i18nInstance);
+      renderFormSuccess(state, i18nInstance, elements);
       renderData(state, i18nInstance);
       break;
     default:
-      feedb.innerText = (feedb.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
+      elements.feedback.innerText = (elements.feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;
   }
