@@ -120,8 +120,8 @@ const render = (state, i18nInstance) => {
 };
 
 const visualize = (state, i18nInstance) => {
-  const watchedState = onChange(state, () => {
-    // console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
+  const watchedState = onChange(state, (path, value) => {
+    console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
     render(state, i18nInstance);
   });
   return watchedState;
