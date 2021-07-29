@@ -21,8 +21,8 @@ const renderModal = (state, event, i18nInstance) => {
         ${post.description}
         </div>
         <div class="modal-footer">
-        <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('details')}</button></a>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('close')}</button>
+        <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('modal.details')}</button></a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('modal.close')}</button>
         </div>
       </div>
     </div>`;
@@ -42,7 +42,7 @@ const renderData = (state, i18nInstance) => {
       .map((post) => `<li id="${post.id}" class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
         <a href="${post.link}" class="${viewedOrNotClass(state, post.id)}" target="_blank" rel="noopener noreferrer">${post.title}</a>
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detailModal">
-        ${i18nInstance.t('show')}
+        ${i18nInstance.t('modal.show')}
       </button></li>`)
       .join('');
     posts.querySelector('.postsList').innerHTML = postsHTML;
@@ -119,15 +119,15 @@ const render = (state, i18nInstance) => {
       renderData(state, i18nInstance);
       break;
     default:
-      elements.feedback.textContent = (elements.feedback.textContent === '') ? '' : i18nInstance.t(state.rssForm.feedback);
+      elements.feedback.textContent = (elements.feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;
   }
 };
 
 const visualize = (state, i18nInstance) => {
-  const watchedState = onChange(state, () => {
-    // console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
+  const watchedState = onChange(state, (path, value) => {
+    console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
     render(state, i18nInstance);
   });
   return watchedState;
