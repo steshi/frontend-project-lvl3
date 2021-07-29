@@ -37,7 +37,7 @@ export default () => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData);
-        console.log(1111111111111, 'button submit pressed', data);
+        // console.log(1111111111111, 'button submit pressed', data);
         handlerForm(state, i18nInstance, event);
       });
     });

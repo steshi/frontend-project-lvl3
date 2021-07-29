@@ -45,11 +45,11 @@ const makeResponse = (state, link) => {
       state.rssForm.alreadyAddedRsss.push(link);
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
-      console.log(222222222222, 'sucess');
+      // console.log(222222222222, 'sucess');
     })
     .catch((e) => {
-      console.log(3333333333, e);
-      console.log(4444, e.message, 555, e.name, 666, e.message === 'Network Error');
+      // console.log(3333333333, e);
+      // console.log(4444, e.message, 555, e.name, 666, e.message === 'Network Error');
       if (e.message === 'Network Error') {
         state.rssForm.feedback = 'errors.networkError';
         state.rssForm.state = 'bad responsed';
@@ -57,7 +57,7 @@ const makeResponse = (state, link) => {
         state.rssForm.feedback = 'errors.noValidRss';
         state.rssForm.state = 'bad responsed';
       }
-      console.log(3333333333, 'error catched');
+      // console.log(3333333333, 'error catched');
     })
     .then(() => additionalResponse(state));
 };
