@@ -21,7 +21,7 @@ export default () => {
   i18nInstance
     .init({
       lng: 'ru',
-      debug: true,
+      debug: false,
       resources: locales,
     })
     .then(() => {
@@ -35,8 +35,8 @@ export default () => {
         });
       document.querySelector('form', '.rss-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
+        // const formData = new FormData(event.target);
+        // const data = Object.fromEntries(formData);
         // console.log(1111111111111, 'button submit pressed', data);
         handlerForm(state, i18nInstance, event);
       });
