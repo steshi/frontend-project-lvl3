@@ -34,7 +34,7 @@ const viewedOrNotClass = (state, id) => {
 };
 
 const renderData = (state, i18nInstance) => {
-  console.log('----------', 'renderDATA', document.body.innerHTML);
+  console.log('----------', 'renderDATA');
   if (state.data.feeds.length > 0) {
     const posts = document.querySelector('.posts');
     posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
@@ -70,37 +70,33 @@ const renderData = (state, i18nInstance) => {
 };
 
 const renderFormSuccess = (state, i18nInstance, elements) => {
-  console.log('----------', 'renderFORMSucess', document.body.innerHTML);
+  console.log('----------', 'renderFORMSucess');
   elements.addButton.disabled = false;
   elements.input.classList.remove('is-invalid');
   elements.feedback.classList.remove('text-danger');
   elements.feedback.classList.add('text-success');
-  console.log(11111111111111111111111111111, i18nInstance.t(state.rssForm.feedback));
-  console.log(2222222222222222222222222, elements.feedback);
   elements.feedback.textContent = i18nInstance.t(state.rssForm.feedback);
-  console.log(2222222222222222222222222, elements.feedback);
-  console.log('----------', 'renderFORMSucess', document.body.innerHTML);
   elements.form.reset();
   elements.input.focus();
 };
 
 const renderFormFail = (state, i18nInstance, elements) => {
-  console.log('----------', 'renderFormFail', document.body.innerHTML);
+  console.log('----------', 'renderFormFail');
   elements.addButton.disabled = false;
   if (elements.feedback.classList.contains('text-success')) {
     elements.feedback.classList.replace('text-success', 'text-danger');
   }
   elements.input.classList.add('is-invalid');
-  elements.feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+  elements.feedback.textContent = i18nInstance.t(state.rssForm.feedback);
 };
 
 const renderFormPending = (elements) => {
-  console.log('----------', 'renderPending', document.body.innerHTML);
+  console.log('----------', 'renderPending');
   elements.addButton.disabled = true;
 };
 
 const render = (state, i18nInstance) => {
-  console.log('----------', 'render', document.body.innerHTML);
+  console.log('----------', 'render');
 
   const elements = {
     feedback: document.querySelector('.feedback'),
@@ -123,7 +119,7 @@ const render = (state, i18nInstance) => {
       renderData(state, i18nInstance);
       break;
     default:
-      elements.feedback.innerText = (elements.feedback.innerText === '') ? '' : i18nInstance.t(state.rssForm.feedback);
+      elements.feedback.textContent = (elements.feedback.textContent === '') ? '' : i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance);
       break;
   }
