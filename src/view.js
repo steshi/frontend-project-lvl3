@@ -76,6 +76,7 @@ const renderFormSuccess = (state, i18nInstance, elements) => {
   elements.feedback.classList.remove('text-danger');
   elements.feedback.classList.add('text-success');
   elements.feedback.innerText = i18nInstance.t(state.rssForm.feedback);
+  console.log('----------', 'renderFORMSucess', document.body.innerHTML);
   elements.form.reset();
   elements.input.focus();
 };
