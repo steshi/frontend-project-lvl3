@@ -47,9 +47,11 @@ const makeResponse = (state, link) => {
       state.rssForm.state = 'successfully responsed';
       console.log(222222222222, 'sucess', document.body.innerHTML);
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log(3333333333, e);
       state.rssForm.feedback = 'errors.noValidRss';
       state.rssForm.state = 'bad responsed';
+      console.log(3333333333, 'error catched');
     })
     .then(() => additionalResponse(state));
 };
