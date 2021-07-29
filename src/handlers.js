@@ -45,11 +45,11 @@ const makeResponse = (state, link) => {
       state.rssForm.alreadyAddedRsss.push(link);
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
-      console.log(222222222222, 'sucess');
+      console.log(222222222222, 'sucess', document.body.innerHTML);
     })
-    .catch((error) => {
-      console.log(3333333333, error);
-      console.log(4444, error.message, 555, error.name, 666, error.message === 'Network Error');
+    .catch((e) => {
+      console.log(3333333333, e);
+      console.log(4444, e.message, 555, e.name, 666, e.message === 'Network Error');
       state.rssForm.feedback = 'errors.noValidRss';
       state.rssForm.state = 'bad responsed';
       console.log(3333333333, 'error catched');
@@ -57,11 +57,11 @@ const makeResponse = (state, link) => {
     .then(() => additionalResponse(state));
 };
 
-export const handlerForm = (state, i18nInstance, event) => {
+export const handlerForm = (state, i18nInstance, e) => {
   const watchedState = visualize(state, i18nInstance);
-  event.preventDefault();
+  e.preventDefault();
   watchedState.rssForm.state = '----------------start-----------------';
-  const formData = new FormData(event.target);
+  const formData = new FormData(e.target);
   const rssUrl = formData.get('url');
   const errors = validate({ url: rssUrl }, state);
   watchedState.rssForm.valid = _.isEqual(errors, []);
