@@ -10,6 +10,7 @@ export default {
       notValidLink: 'Ссылка должна быть валидным URL',
       alreadyAddedLink: 'RSS уже существует',
       noValidRss: 'Ресурс не содержит валидный RSS',
+      networkError: 'Ошибка сети',
     },
   },
 };
