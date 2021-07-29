@@ -72,6 +72,7 @@ const renderData = (state, i18nInstance) => {
 const renderFormSuccess = (state, i18nInstance, elements) => {
   console.log('----------', 'renderFORMSucess');
   elements.addButton.disabled = false;
+  elements.input.readOnly = false;
   elements.input.classList.remove('is-invalid');
   elements.feedback.classList.remove('text-danger');
   elements.feedback.classList.add('text-success');
@@ -83,6 +84,7 @@ const renderFormSuccess = (state, i18nInstance, elements) => {
 const renderFormFail = (state, i18nInstance, elements) => {
   console.log('----------', 'renderFormFail');
   elements.addButton.disabled = false;
+  elements.input.readOnly = false;
   if (elements.feedback.classList.contains('text-success')) {
     elements.feedback.classList.replace('text-success', 'text-danger');
   }
@@ -93,6 +95,7 @@ const renderFormFail = (state, i18nInstance, elements) => {
 const renderFormPending = (elements) => {
   console.log('----------', 'renderPending');
   elements.addButton.disabled = true;
+  elements.input.readOnly = true;
 };
 
 const render = (state, i18nInstance) => {
@@ -126,8 +129,8 @@ const render = (state, i18nInstance) => {
 };
 
 const visualize = (state, i18nInstance) => {
-  const watchedState = onChange(state, () => {
-    // console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
+  const watchedState = onChange(state, (path, value) => {
+    console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
     render(state, i18nInstance);
   });
   return watchedState;
