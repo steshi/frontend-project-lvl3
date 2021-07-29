@@ -75,6 +75,7 @@ const renderFormSuccess = (state, i18nInstance, elements) => {
   elements.input.classList.remove('is-invalid');
   elements.feedback.classList.remove('text-danger');
   elements.feedback.classList.add('text-success');
+  console.log(11111111111111111111111111111, i18nInstance.t(state.rssForm.feedback));
   elements.feedback.innerText = i18nInstance.t(state.rssForm.feedback);
   console.log('----------', 'renderFORMSucess', document.body.innerHTML);
   elements.form.reset();
