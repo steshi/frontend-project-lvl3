@@ -45,11 +45,8 @@ const makeResponse = (state, link) => {
       state.rssForm.alreadyAddedRsss.push(link);
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
-      // console.log(222222222222, 'sucess');
     })
     .catch((e) => {
-      // console.log(3333333333, e);
-      // console.log(4444, e.message, 555, e.name, 666, e.message === 'Network Error');
       if (e.message === 'Network Error') {
         state.rssForm.feedback = 'errors.networkError';
         state.rssForm.state = 'bad responsed';
@@ -57,7 +54,6 @@ const makeResponse = (state, link) => {
         state.rssForm.feedback = 'errors.noValidRss';
         state.rssForm.state = 'bad responsed';
       }
-      // console.log(3333333333, 'error catched');
     })
     .then(() => additionalResponse(state));
 };
@@ -70,7 +66,6 @@ export const handlerForm = (state, i18nInstance, e) => {
   const rssUrl = formData.get('url');
   const errors = validate({ url: rssUrl }, state);
   watchedState.rssForm.valid = _.isEqual(errors, []);
-  // watchedState.rssForm.errors = errors.map((err) => err.message);
   if (!watchedState.rssForm.valid) {
     watchedState.rssForm.feedback = errors;
     watchedState.rssForm.state = 'failed';
