@@ -104,7 +104,6 @@ const renderFormPending = (elements) => {
 
 const render = (state, i18nInstance) => {
   console.log('----------', 'render');
-
   const elements = {
     feedback: document.querySelector('.feedback'),
     input: document.querySelector('#url-input'),
