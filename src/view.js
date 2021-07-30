@@ -34,7 +34,7 @@ const viewedOrNotClass = (state, id) => {
 };
 
 const renderData = (state, i18nInstance) => {
-  console.log('----------', 'renderDATA');
+  // console.log('----------', 'renderDATA');
   if (state.data.feeds.length > 0) {
     const posts = document.querySelector('.posts');
     posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
@@ -70,7 +70,7 @@ const renderData = (state, i18nInstance) => {
 };
 
 const renderFormSuccess = (state, i18nInstance, elements) => {
-  console.log('----------', 'renderFORMSucess');
+  // console.log('----------', 'renderFORMSucess');
   elements.addButton.disabled = false;
   elements.input.readOnly = false;
   elements.input.classList.remove('is-invalid');
@@ -82,7 +82,7 @@ const renderFormSuccess = (state, i18nInstance, elements) => {
 };
 
 const renderFormFail = (state, i18nInstance, elements) => {
-  console.log('----------', 'renderFormFail');
+  // console.log('----------', 'renderFormFail');
   elements.addButton.disabled = false;
   elements.input.readOnly = false;
   if (elements.feedback.classList.contains('text-success')) {
@@ -93,13 +93,13 @@ const renderFormFail = (state, i18nInstance, elements) => {
 };
 
 const renderFormPending = (elements) => {
-  console.log('----------', 'renderPending');
+  // console.log('----------', 'renderPending');
   elements.addButton.disabled = true;
   elements.input.readOnly = true;
 };
 
 const render = (state, i18nInstance) => {
-  console.log('----------', 'render');
+  // console.log('----------', 'render');
 
   const elements = {
     feedback: document.querySelector('.feedback'),
@@ -129,8 +129,8 @@ const render = (state, i18nInstance) => {
 };
 
 const visualize = (state, i18nInstance) => {
-  const watchedState = onChange(state, (path, value) => {
-    console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
+  const watchedState = onChange(state, () => {
+  // console.log('RENDERING STATE', '\n', 'PATH:', path, '\n', 'VALUE', value);
     render(state, i18nInstance);
   });
   return watchedState;
