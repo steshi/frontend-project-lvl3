@@ -49,10 +49,10 @@ const makeResponse = (state, link) => {
     .catch((e) => {
       if (e.message === 'Network Error') {
         state.rssForm.feedback = 'errors.networkError';
-        state.rssForm.state = 'bad responsed';
+        state.rssForm.state = 'failed';
       } else {
         state.rssForm.feedback = 'errors.noValidRss';
-        state.rssForm.state = 'bad responsed';
+        state.rssForm.state = 'failed';
       }
     })
     .then(() => additionalResponse(state));
