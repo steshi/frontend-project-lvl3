@@ -17,6 +17,7 @@ const additionalResponse = (state) => {
       .then((response) => {
         const responseList = parse(response.data.contents);
         const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
+        state.rssForm.state = 'start';
         const posts = [...newPosts, ...state.data.posts];
         posts.forEach((post) => {
           post.id = posts.length - posts.indexOf(post);
@@ -24,7 +25,6 @@ const additionalResponse = (state) => {
         const newUiStates = newPosts.map(({ id }) => ({ postId: id, viewed: false }));
         state.stateUi = [...newUiStates, ...state.stateUi];
         state.data.posts = posts;
-        state.rssForm.state = 'updated';
       });
   });
   setTimeout(() => additionalResponse(state), 5000);
@@ -49,10 +49,11 @@ const makeResponse = (state, link) => {
     .catch((e) => {
       if (e.message === 'Network Error') {
         state.rssForm.feedback = 'errors.networkError';
+        state.rssForm.state = 'bad responsed';
       } else {
         state.rssForm.feedback = 'errors.noValidRss';
+        state.rssForm.state = 'bad responsed';
       }
-      state.rssForm.state = 'failed';
     })
     .then(() => additionalResponse(state));
 };
@@ -60,6 +61,7 @@ const makeResponse = (state, link) => {
 export const handlerForm = (state, i18nInstance, e) => {
   const watchedState = visualize(state, i18nInstance);
   e.preventDefault();
+  watchedState.rssForm.state = '----------------start-----------------';
   const formData = new FormData(e.target);
   const rssUrl = formData.get('url');
   const errors = validate({ url: rssUrl }, state);
