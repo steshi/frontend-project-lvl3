@@ -52,7 +52,7 @@ const makeResponse = (state, link) => {
       } else {
         state.rssForm.feedback = 'errors.noValidRss';
       }
-      state.rssForm.state = 'bad responsed';
+      state.rssForm.state = 'failed';
     })
     .then(() => additionalResponse(state));
 };

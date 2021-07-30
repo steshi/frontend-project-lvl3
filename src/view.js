@@ -112,9 +112,6 @@ const render = (state, i18nInstance) => {
     case 'failed':
       renderFormFail(state, i18nInstance, elements);
       break;
-    case 'bad responsed':
-      renderFormFail(state, i18nInstance, elements);
-      break;
     case 'successfully responsed':
       renderFormSuccess(state, i18nInstance, elements);
       renderData(state, i18nInstance);
