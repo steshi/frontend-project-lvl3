@@ -21,7 +21,7 @@ export default () => {
   i18nInstance
     .init({
       lng: 'ru',
-      debug: true,
+      debug: false,
       resources: locales,
     })
     .then(() => {
