@@ -125,9 +125,8 @@ const render = (state, i18nInstance) => {
 
 const visualize = (state, i18nInstance) => {
   const watchedState = onChange(state, (path) => {
-    if (path === 'rssForm.state' || path.includes('stateUi')) {
-      render(state, i18nInstance);
-    }
+    console.log(1111111, path);
+    if (path === 'rssForm.state' || path.includes('stateUi') || path === 'lang') render(state, i18nInstance);
   });
   return watchedState;
 };

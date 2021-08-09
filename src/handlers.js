@@ -54,7 +54,9 @@ const makeResponse = (state, link) => {
       }
       state.rssForm.state = 'failed';
     })
-    .then(() => additionalResponse(state));
+    .then(() => {
+      setTimeout(() => additionalResponse(state), 5000);
+    });
 };
 
 export const handlerForm = (state, i18nInstance, e) => {
