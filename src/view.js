@@ -2,14 +2,21 @@
 import onChange from 'on-change';
 
 const renderViewedPosts = (state, e) => {
+  console.log('------------------render viewedPosts', e.target.parentElement.id);
+  console.log(888888888888, state.viewedPosts);
   const liId = Number.parseInt(e.target.parentElement.id, 10);
-  state.stateUi.forEach((linkState) => {
+  state.viewedPosts.forEach((linkState) => {
     if (linkState.postId === liId) linkState.viewed = true;
   });
+  console.log(999999999999, state.viewedPosts);
 };
 
 const renderModal = (state, event, i18nInstance) => {
+  console.log(11111111111111, state.viewedPosts);
+
   renderViewedPosts(state, event);
+  console.log(2222222222222, state.viewedPosts);
+
   const liId = Number.parseInt(event.target.parentElement.id, 10);
   const modal = document.querySelector('#detailModal');
   const post = state.data.posts.filter((el) => el.id === liId)[0];
@@ -31,7 +38,7 @@ const renderModal = (state, event, i18nInstance) => {
 };
 
 const viewedOrNotClass = (state, id) => {
-  const post = state.stateUi.filter((element) => element.postId === id)[0];
+  const post = state.viewedPosts.filter((element) => element.postId === id)[0];
   return post.viewed ? 'fw-normal' : 'fw-bold';
 };
 
@@ -51,9 +58,12 @@ const renderPosts = (state, i18nInstance) => {
     renderModal(state, event, i18nInstance);
   }));
   const links = posts.querySelectorAll('a');
+  console.log(333333333333333, state.viewedPosts);
+
   links.forEach((link) => link.addEventListener('click', (event) => {
     renderViewedPosts(state, event);
   }));
+  console.log(4444444444444444, state.viewedPosts);
 };
 
 const renderFeeds = (state, i18nInstance) => {
@@ -124,8 +134,9 @@ const render = (state, i18nInstance) => {
 };
 
 const visualize = (state, i18nInstance) => {
-  const watchedState = onChange(state, (path) => {
-    if (path === 'rssForm.state' || path === 'lang' || path.includes('stateUi')) {
+  const watchedState = onChange(state, (path, value) => {
+    console.log(11111111, path, 22222222222222, value);
+    if (path === 'rssForm.state' || path === 'lang' || path.includes('viewedPosts')) {
       render(state, i18nInstance);
     }
   });

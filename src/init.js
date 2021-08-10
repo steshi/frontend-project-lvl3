@@ -9,7 +9,7 @@ export default () => {
       posts: [],
       feeds: [],
     },
-    stateUi: [],
+    viewedPosts: [],
     rssForm: {
       feedback: '',
       state: 'init',
