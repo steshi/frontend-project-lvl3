@@ -27,7 +27,7 @@ const additionalResponse = (state) => {
         state.data.posts = posts;
       });
   });
-  setTimeout(() => additionalResponse(state), 15000);
+  setTimeout(() => additionalResponse(state), 5000);
 };
 
 const makeResponse = (state, link) => {
@@ -39,14 +39,13 @@ const makeResponse = (state, link) => {
         post.id = posts.length - posts.indexOf(post);
       });
       const newUiStates = responseList.posts.map(({ id }) => ({ postId: id, viewed: false }));
-      console.log(8888888888, state.viewedPosts);
       state.viewedPosts = [...newUiStates, ...state.viewedPosts];
-      console.log(99999999, state.viewedPosts);
       state.data.posts = posts;
       state.data.feeds = [responseList.feed, ...state.data.feeds];
       state.rssForm.alreadyAddedRsss.push(link);
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
+      additionalResponse(state);
     })
     .catch((e) => {
       if (e.message === 'Network Error') {
@@ -55,8 +54,7 @@ const makeResponse = (state, link) => {
         state.rssForm.feedback = 'errors.noValidRss';
       }
       state.rssForm.state = 'failed';
-    })
-    .then(() => setTimeout(() => additionalResponse(state), 15000));
+    });
 };
 
 export const handlerForm = (state, i18nInstance, e) => {
