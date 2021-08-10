@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import { handlerForm, handlerLangButton } from './handlers.js';
+import { handlerForm, handlerLangButton, handleClickPost } from './handlers.js';
 import locales from './locales/locales.js';
 
 export default () => {
@@ -8,6 +8,9 @@ export default () => {
     data: {
       posts: [],
       feeds: [],
+    },
+    ui: {
+      viewedPosts: [],
     },
     viewedPosts: [],
     rssForm: {
@@ -45,6 +48,9 @@ export default () => {
       document.querySelector('form', '.rss-form').addEventListener('submit', (event) => {
         event.preventDefault();
         handlerForm(state, i18nInstance, event, elements);
+      });
+      elements.posts.addEventListener('click', (event) => {
+        handleClickPost(event);
       });
     });
 };

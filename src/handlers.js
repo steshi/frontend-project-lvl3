@@ -73,3 +73,8 @@ export const handlerForm = (state, i18nInstance, e, elements) => {
     makeResponse(watchedState, rssUrl);
   }
 };
+
+export const handleClickPost = (e) => {
+  const id = Number.parseInt(e.target.parentElement.id, 10);
+  console.log(id, e.target);
+};

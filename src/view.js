@@ -1,35 +1,35 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
 
-const renderViewedPosts = (state, e) => {
-  const liId = Number.parseInt(e.target.parentElement.id, 10);
-  state.viewedPosts.forEach((linkState) => {
-    if (linkState.postId === liId) linkState.viewed = true;
-  });
-};
+// const renderViewedPosts = (state, e) => {
+//   const liId = Number.parseInt(e.target.parentElement.id, 10);
+//   state.viewedPosts.forEach((linkState) => {
+//     if (linkState.postId === liId) linkState.viewed = true;
+//   });
+// };
 
-const renderModal = (state, event, i18nInstance) => {
-  renderViewedPosts(state, event);
+// const renderModal = (state, event, i18nInstance) => {
+//   renderViewedPosts(state, event);
 
-  const liId = Number.parseInt(event.target.parentElement.id, 10);
-  const modal = document.querySelector('#detailModal');
-  const post = state.data.posts.filter((el) => el.id === liId)[0];
-  modal.innerHTML = `<div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="detailModal">${post.title}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-        ${post.description}
-        </div>
-        <div class="modal-footer">
-        <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('details')}</button></a>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('close')}</button>
-        </div>
-      </div>
-    </div>`;
-};
+//   const liId = Number.parseInt(event.target.parentElement.id, 10);
+//   const modal = document.querySelector('#detailModal');
+//   const post = state.data.posts.filter((el) => el.id === liId)[0];
+//   modal.innerHTML = `<div class="modal-dialog">
+//       <div class="modal-content">
+//         <div class="modal-header">
+//           <h5 class="modal-title" id="detailModal">${post.title}</h5>
+//           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//         </div>
+//         <div class="modal-body">
+//         ${post.description}
+//         </div>
+//         <div class="modal-footer">
+//         <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('details')}</button></a>
+//           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('close')}</button>
+//         </div>
+//       </div>
+//     </div>`;
+// };
 
 const viewedOrNotClass = (state, id) => {
   const post = state.viewedPosts.filter((element) => element.postId === id)[0];
@@ -47,14 +47,14 @@ const renderPosts = (state, i18nInstance, elements) => {
     </button></li>`)
     .join('');
   posts.querySelector('.postsList').innerHTML = postsHTML;
-  const buttons = posts.querySelectorAll('button');
-  buttons.forEach((button) => button.addEventListener('click', (event) => {
-    renderModal(state, event, i18nInstance);
-  }));
-  const links = posts.querySelectorAll('a');
-  links.forEach((link) => link.addEventListener('click', (event) => {
-    renderViewedPosts(state, event);
-  }));
+  // const buttons = posts.querySelectorAll('button');
+  // buttons.forEach((button) => button.addEventListener('click', (event) => {
+  //   renderModal(state, event, i18nInstance);
+  // }));
+  // const links = posts.querySelectorAll('a');
+  // links.forEach((link) => link.addEventListener('click', (event) => {
+  //   renderViewedPosts(state, event);
+  // }));
 };
 
 const renderFeeds = (state, i18nInstance, elements) => {
