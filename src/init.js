@@ -25,17 +25,26 @@ export default () => {
       resources: locales,
     })
     .then(() => {
+      const elements = {
+        feedback: document.querySelector('.feedback'),
+        input: document.querySelector('#url-input'),
+        form: document.querySelector('form'),
+        addButton: document.querySelector('[aria-label="add"]'),
+        posts: document.querySelector('.posts'),
+        feeds: document.querySelector('.feeds'),
+
+      };
       document.querySelectorAll('.langButton')
         .forEach((button) => {
           const { lang } = button.dataset;
           button.addEventListener('click', () => {
             i18nInstance.changeLanguage(lang);
-            handlerLangButton(state, i18nInstance);
+            handlerLangButton(state, i18nInstance, elements);
           });
         });
       document.querySelector('form', '.rss-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        handlerForm(state, i18nInstance, event);
+        handlerForm(state, i18nInstance, event, elements);
       });
     });
 };

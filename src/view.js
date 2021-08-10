@@ -2,7 +2,6 @@
 import onChange from 'on-change';
 
 const renderViewedPosts = (state, e) => {
-  console.log('------------------render viewedPosts', e.target.parentElement.id);
   const liId = Number.parseInt(e.target.parentElement.id, 10);
   state.viewedPosts.forEach((linkState) => {
     if (linkState.postId === liId) linkState.viewed = true;
@@ -37,8 +36,8 @@ const viewedOrNotClass = (state, id) => {
   return post.viewed ? 'fw-normal' : 'fw-bold';
 };
 
-const renderPosts = (state, i18nInstance) => {
-  const posts = document.querySelector('.posts');
+const renderPosts = (state, i18nInstance, elements) => {
+  const { posts } = elements;
   posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
   const postsHTML = state.data.posts
     .map((post) => `<li id="${post.id}" class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
@@ -58,8 +57,8 @@ const renderPosts = (state, i18nInstance) => {
   }));
 };
 
-const renderFeeds = (state, i18nInstance) => {
-  const feeds = document.querySelector('.feeds');
+const renderFeeds = (state, i18nInstance, elements) => {
+  const { feeds } = elements;
   feeds.innerHTML = `<div class="card-body feeds-contatiner"><h2 class="card-title h4">${i18nInstance.t('feeds')}</h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>`;
   const feedsHTML = state.data.feeds
     .map((feed) => `<li><h3 class="h6 m-0">${feed.title}</h3><p class="m-0 small text-black-50">${feed.description}</p></li>`)
@@ -67,10 +66,10 @@ const renderFeeds = (state, i18nInstance) => {
   feeds.querySelector('.feedsList').innerHTML = feedsHTML;
 };
 
-const renderData = (state, i18nInstance) => {
+const renderData = (state, i18nInstance, elements) => {
   if (state.data.feeds.length > 0) {
-    renderPosts(state, i18nInstance);
-    renderFeeds(state, i18nInstance);
+    renderPosts(state, i18nInstance, elements);
+    renderFeeds(state, i18nInstance, elements);
   }
 };
 
@@ -100,13 +99,7 @@ const renderFormPending = (elements) => {
   elements.input.readOnly = true;
 };
 
-const render = (state, i18nInstance) => {
-  const elements = {
-    feedback: document.querySelector('.feedback'),
-    input: document.querySelector('#url-input'),
-    form: document.querySelector('form'),
-    addButton: document.querySelector('[aria-label="add"]'),
-  };
+const render = (state, i18nInstance, elements) => {
   switch (state.rssForm.state) {
     case 'pending':
       renderFormPending(elements);
@@ -116,19 +109,19 @@ const render = (state, i18nInstance) => {
       break;
     case 'successfully responsed':
       renderFormSuccess(state, i18nInstance, elements);
-      renderData(state, i18nInstance);
+      renderData(state, i18nInstance, elements);
       break;
     default:
       elements.feedback.textContent = (elements.feedback.textContent === '') ? '' : i18nInstance.t(state.rssForm.feedback);
-      renderData(state, i18nInstance);
+      renderData(state, i18nInstance, elements);
       break;
   }
 };
 
-const visualize = (state, i18nInstance) => {
+const visualize = (state, i18nInstance, elements) => {
   const watchedState = onChange(state, (path) => {
     if (path === 'rssForm.state' || path === 'lang' || path.includes('viewedPosts')) {
-      render(state, i18nInstance);
+      render(state, i18nInstance, elements);
     }
   });
   return watchedState;

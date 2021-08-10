@@ -5,8 +5,8 @@ import validate from './validationURL.js';
 import parse from './parseRSS.js';
 import visualize from './view.js';
 
-export const handlerLangButton = (state, i18nInstance) => {
-  const watchedState = visualize(state, i18nInstance);
+export const handlerLangButton = (state, i18nInstance, elements) => {
+  const watchedState = visualize(state, i18nInstance, elements);
   watchedState.lang = i18nInstance.language;
 };
 
@@ -57,8 +57,8 @@ const makeResponse = (state, link) => {
     });
 };
 
-export const handlerForm = (state, i18nInstance, e) => {
-  const watchedState = visualize(state, i18nInstance);
+export const handlerForm = (state, i18nInstance, e, elements) => {
+  const watchedState = visualize(state, i18nInstance, elements);
   e.preventDefault();
   watchedState.rssForm.state = '----------------start-----------------';
   const formData = new FormData(e.target);
