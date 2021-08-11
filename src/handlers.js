@@ -5,11 +5,6 @@ import validate from './validationURL.js';
 import parse from './parseRSS.js';
 import visualize from './view.js';
 
-export const handlerLangButton = (state, i18nInstance, elements) => {
-  const watchedState = visualize(state, i18nInstance, elements);
-  watchedState.lang = i18nInstance.language;
-};
-
 const additionalResponse = (state) => {
   const added = state.rssForm.alreadyAddedRsss;
   added.forEach((link) => {
@@ -22,12 +17,10 @@ const additionalResponse = (state) => {
         posts.forEach((post) => {
           post.id = posts.length - posts.indexOf(post);
         });
-        const newUiStates = newPosts.map(({ id }) => ({ postId: id, viewed: false }));
-        state.viewedPosts = [...newUiStates, ...state.viewedPosts];
         state.data.posts = posts;
       });
   });
-  setTimeout(() => additionalResponse(state), 5000);
+  setTimeout(() => additionalResponse(state), 35000);
 };
 
 const makeResponse = (state, link) => {
@@ -38,14 +31,11 @@ const makeResponse = (state, link) => {
       posts.forEach((post) => {
         post.id = posts.length - posts.indexOf(post);
       });
-      const newUiStates = responseList.posts.map(({ id }) => ({ postId: id, viewed: false }));
-      state.viewedPosts = [...newUiStates, ...state.viewedPosts];
       state.data.posts = posts;
       state.data.feeds = [responseList.feed, ...state.data.feeds];
       state.rssForm.alreadyAddedRsss.push(link);
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
-      additionalResponse(state);
     })
     .catch((e) => {
       if (e.message === 'Network Error') {
@@ -54,7 +44,17 @@ const makeResponse = (state, link) => {
         state.rssForm.feedback = 'errors.noValidRss';
       }
       state.rssForm.state = 'failed';
-    });
+    })
+    .then(() => additionalResponse(state));
+};
+
+export const handlerLangButton = (state, i18nInstance, event, elements) => {
+  if (event.target.classList.contains('langButton')) {
+    const { lang } = event.target.dataset;
+    i18nInstance.changeLanguage(lang);
+    const watchedState = visualize(state, i18nInstance, elements);
+    watchedState.lang = i18nInstance.language;
+  }
 };
 
 export const handlerForm = (state, i18nInstance, e, elements) => {
@@ -74,7 +74,11 @@ export const handlerForm = (state, i18nInstance, e, elements) => {
   }
 };
 
-export const handleClickPost = (e) => {
-  const id = Number.parseInt(e.target.parentElement.id, 10);
-  console.log(id, e.target);
+export const handlerClick = (state, i18nInstance, event, elements) => {
+  if (event.target.dataset.id) {
+    const watchedState = visualize(state, i18nInstance, elements);
+    const viewedId = Number(event.target.dataset.id);
+    watchedState.ui.viewedPosts.add(viewedId);
+    watchedState.ui.currentModalId = viewedId;
+  }
 };

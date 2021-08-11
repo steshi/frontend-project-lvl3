@@ -1,60 +1,30 @@
 /* eslint-disable no-param-reassign */
 import onChange from 'on-change';
 
-// const renderViewedPosts = (state, e) => {
-//   const liId = Number.parseInt(e.target.parentElement.id, 10);
-//   state.viewedPosts.forEach((linkState) => {
-//     if (linkState.postId === liId) linkState.viewed = true;
-//   });
-// };
-
-// const renderModal = (state, event, i18nInstance) => {
-//   renderViewedPosts(state, event);
-
-//   const liId = Number.parseInt(event.target.parentElement.id, 10);
-//   const modal = document.querySelector('#detailModal');
-//   const post = state.data.posts.filter((el) => el.id === liId)[0];
-//   modal.innerHTML = `<div class="modal-dialog">
-//       <div class="modal-content">
-//         <div class="modal-header">
-//           <h5 class="modal-title" id="detailModal">${post.title}</h5>
-//           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-//         </div>
-//         <div class="modal-body">
-//         ${post.description}
-//         </div>
-//         <div class="modal-footer">
-//         <a href="${post.link}" target="blank"><button type="button" class="btn btn-primary">${i18nInstance.t('details')}</button></a>
-//           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${i18nInstance.t('close')}</button>
-//         </div>
-//       </div>
-//     </div>`;
-// };
-
-const viewedOrNotClass = (state, id) => {
-  const post = state.viewedPosts.filter((element) => element.postId === id)[0];
-  return post.viewed ? 'fw-normal' : 'fw-bold';
+const renderModal = (state, i18nInstance, elements) => {
+  const { modal } = elements;
+  const post = state.data.posts.filter((el) => el.id === state.ui.currentModalId)[0];
+  modal.querySelector('#detailModalTitle').innerText = post.title;
+  modal.querySelector('.modal-body').textContent = post.description;
+  const showMoreButton = modal.querySelector('.btn-primary');
+  showMoreButton.innerText = i18nInstance.t('details');
+  showMoreButton.href = post.link;
+  modal.querySelector('.btn-secondary').innerText = i18nInstance.t('close');
 };
+
+const viewedOrNotClass = (state, id) => (state.ui.viewedPosts.has(id) ? 'fw-normal' : 'fw-bold');
 
 const renderPosts = (state, i18nInstance, elements) => {
   const { posts } = elements;
   posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
   const postsHTML = state.data.posts
-    .map((post) => `<li id="${post.id}" class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
-      <a href="${post.link}" class="${viewedOrNotClass(state, post.id)}" target="_blank" rel="noopener noreferrer">${post.title}</a>
-      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detailModal">
+    .map((post) => `<li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
+      <a href="${post.link}" class="${viewedOrNotClass(state, post.id)}" data-id="${post.id}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+      <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detailModal" data-id="${post.id}">
       ${i18nInstance.t('show')}
     </button></li>`)
     .join('');
   posts.querySelector('.postsList').innerHTML = postsHTML;
-  // const buttons = posts.querySelectorAll('button');
-  // buttons.forEach((button) => button.addEventListener('click', (event) => {
-  //   renderModal(state, event, i18nInstance);
-  // }));
-  // const links = posts.querySelectorAll('a');
-  // links.forEach((link) => link.addEventListener('click', (event) => {
-  //   renderViewedPosts(state, event);
-  // }));
 };
 
 const renderFeeds = (state, i18nInstance, elements) => {
@@ -120,8 +90,10 @@ const render = (state, i18nInstance, elements) => {
 
 const visualize = (state, i18nInstance, elements) => {
   const watchedState = onChange(state, (path) => {
-    if (path === 'rssForm.state' || path === 'lang' || path.includes('viewedPosts')) {
+    if (path === 'rssForm.state' || path === 'lang' || path === 'ui.viewedPosts') {
       render(state, i18nInstance, elements);
+    } else if (path === 'ui.currentModalId') {
+      renderModal(state, i18nInstance, elements);
     }
   });
   return watchedState;
