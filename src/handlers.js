@@ -20,7 +20,7 @@ const additionalResponse = (state) => {
         state.data.posts = posts;
       });
   });
-  setTimeout(() => additionalResponse(state), 35000);
+  setTimeout(() => additionalResponse(state), 5000);
 };
 
 const makeResponse = (state, link) => {
@@ -45,7 +45,7 @@ const makeResponse = (state, link) => {
       }
       state.rssForm.state = 'failed';
     })
-    .then(() => additionalResponse(state));
+    .then(() => setTimeout(() => additionalResponse(state), 5000));
 };
 
 export const handlerLangButton = (state, i18nInstance, event, elements) => {
