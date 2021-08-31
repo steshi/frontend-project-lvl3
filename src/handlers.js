@@ -1,30 +1,33 @@
 /* eslint-disable no-param-reassign */
 import _ from 'lodash';
-import getRSS from './getRSS.js';
+import axios from 'axios';
 import validate from './validationURL.js';
 import parse from './parseRSS.js';
 import visualize from './view.js';
 
+const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`;
+
 const additionalResponse = (state) => {
   const added = state.rssForm.alreadyAddedRsss;
   added.forEach((link) => {
-    getRSS(link)
+    axios.get(proxify(link))
       .then((response) => {
         const responseList = parse(response.data.contents);
         const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
-        state.rssForm.state = 'start';
+        state.rssForm.state = '';
         const posts = [...newPosts, ...state.data.posts];
         posts.forEach((post) => {
           post.id = posts.length - posts.indexOf(post);
         });
         state.data.posts = posts;
+        state.rssForm.state = 'posts updated';
       });
   });
   setTimeout(() => additionalResponse(state), 5000);
 };
 
 const makeResponse = (state, link) => {
-  getRSS(link)
+  axios.get(proxify(link))
     .then((response) => {
       const responseList = parse(response.data.contents);
       const posts = [...responseList.posts, ...state.data.posts];

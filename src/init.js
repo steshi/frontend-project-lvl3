@@ -16,7 +16,7 @@ export default () => {
     rssForm: {
       feedback: '',
       state: 'init',
-      valid: '',
+      valid: false,
       alreadyAddedRsss: [],
     },
   };
