@@ -14,11 +14,10 @@ const additionalResponse = (state) => {
       .then((response) => {
         const responseList = parse(response.data.contents);
         const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
-        state.rssForm.state = '';
-        const posts = [...newPosts, ...state.data.posts];
-        posts.forEach((post) => {
-          post.id = posts.length - posts.indexOf(post);
+        newPosts.forEach((post) => {
+          post.id = _.uniqueId();
         });
+        const posts = [...newPosts, ...state.data.posts];
         state.data.posts = posts;
         state.rssForm.state = 'posts updated';
       });
@@ -30,10 +29,10 @@ const makeResponse = (state, link) => {
   axios.get(proxify(link))
     .then((response) => {
       const responseList = parse(response.data.contents);
-      const posts = [...responseList.posts, ...state.data.posts];
-      posts.forEach((post) => {
-        post.id = posts.length - posts.indexOf(post);
+      responseList.posts.forEach((post) => {
+        post.id = _.uniqueId();
       });
+      const posts = [...responseList.posts, ...state.data.posts];
       state.data.posts = posts;
       state.data.feeds = [responseList.feed, ...state.data.feeds];
       state.rssForm.alreadyAddedRsss.push(link);
@@ -63,11 +62,10 @@ export const handlerLangButton = (state, i18nInstance, event, elements) => {
 export const handlerForm = (state, i18nInstance, e, elements) => {
   const watchedState = visualize(state, i18nInstance, elements);
   e.preventDefault();
-  watchedState.rssForm.state = '----------------start-----------------';
   const formData = new FormData(e.target);
   const rssUrl = formData.get('url');
   const errors = validate({ url: rssUrl }, state);
-  watchedState.rssForm.valid = _.isEqual(errors, []);
+  watchedState.rssForm.valid = errors.length === 0;
   if (!watchedState.rssForm.valid) {
     watchedState.rssForm.feedback = errors;
     watchedState.rssForm.state = 'failed';
@@ -80,7 +78,7 @@ export const handlerForm = (state, i18nInstance, e, elements) => {
 export const handlerClick = (state, i18nInstance, event, elements) => {
   if (event.target.dataset.id) {
     const watchedState = visualize(state, i18nInstance, elements);
-    const viewedId = Number(event.target.dataset.id);
+    const viewedId = event.target.dataset.id;
     watchedState.ui.viewedPosts.add(viewedId);
     watchedState.ui.currentModalId = viewedId;
   }

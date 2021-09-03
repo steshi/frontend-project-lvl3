@@ -16,24 +16,42 @@ const viewedOrNotClass = (state, id) => (state.ui.viewedPosts.has(id) ? 'fw-norm
 
 const renderPosts = (state, i18nInstance, elements) => {
   const { posts } = elements;
-  posts.innerHTML = `<div class="card-body posts-container"><h2 class="card-title h4">${i18nInstance.t('posts')}</h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>`;
-  const postsHTML = state.data.posts
-    .map((post) => `<li class="list-group-item d-flex justify-content-between align-items-start border-0 border-end-0">
-      <a href="${post.link}" class="${viewedOrNotClass(state, post.id)}" data-id="${post.id}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+  posts.innerHTML = '<div class="card-body posts-container"><h2 class="card-title h4"></h2></div><ul class="list-group border-0 rounded-0 postsList"></ul>';
+  posts.querySelector('h2').textContent = i18nInstance.t('posts');
+  const postsList = posts.querySelector('.postsList');
+  state.data.posts
+    .forEach((post) => {
+      const li = document.createElement('li');
+      li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
+      li.innerHTML = `<a data-id="${post.id}" target="_blank" rel="noopener noreferrer"></a>
       <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detailModal" data-id="${post.id}">
-      ${i18nInstance.t('show')}
-    </button></li>`)
-    .join('');
-  posts.querySelector('.postsList').innerHTML = postsHTML;
+      </button>`;
+      const a = li.querySelector('a');
+      a.href = post.link;
+      a.classList.add(viewedOrNotClass(state, post.id));
+      a.textContent = post.title;
+      li.querySelector('button').textContent = i18nInstance.t('show');
+      postsList.append(li);
+    });
 };
 
 const renderFeeds = (state, i18nInstance, elements) => {
   const { feeds } = elements;
-  feeds.innerHTML = `<div class="card-body feeds-contatiner"><h2 class="card-title h4">${i18nInstance.t('feeds')}</h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>`;
-  const feedsHTML = state.data.feeds
-    .map((feed) => `<li><h3 class="h6 m-0">${feed.title}</h3><p class="m-0 small text-black-50">${feed.description}</p></li>`)
-    .join('');
-  feeds.querySelector('.feedsList').innerHTML = feedsHTML;
+  feeds.innerHTML = '<div class="card-body feeds-contatiner"><h2 class="card-title h4"></h2></div><ul class="list-group border-0 rounded-0 feedsList"></ul>';
+  feeds.querySelector('h2').textContent = i18nInstance.t('feeds');
+  const feedsList = feeds.querySelector('.feedsList');
+  state.data.feeds.forEach((feed) => {
+    const li = document.createElement('li');
+    const h3 = document.createElement('h3');
+    h3.classList.add('h6', 'm-0');
+    h3.textContent = feed.title;
+    li.append(h3);
+    const p = document.createElement('p');
+    p.classList.add('m-0', 'small', 'text-black-50');
+    p.textContent = feed.description;
+    li.append(p);
+    feedsList.append(li);
+  });
 };
 
 const renderData = (state, i18nInstance, elements) => {
