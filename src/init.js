@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { handlerClick, handlerForm, handlerLangButton } from './handlers.js';
 import locales from './locales/locales.js';
+import visualize from './view.js';
 
 export default () => {
   const state = {
@@ -37,15 +38,16 @@ export default () => {
         feeds: document.querySelector('.feeds'),
         modal: document.querySelector('#detailModal'),
       };
+      const watchedState = visualize(state, i18nInstance, elements);
       document.querySelector('.langButtons').addEventListener('click', (event) => {
-        handlerLangButton(state, i18nInstance, event, elements);
+        handlerLangButton(watchedState, event, i18nInstance);
       });
       document.querySelector('form', '.rss-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        handlerForm(state, i18nInstance, event, elements);
+        handlerForm(watchedState, event);
       });
       elements.posts.addEventListener('click', (event) => {
-        handlerClick(state, i18nInstance, event, elements);
+        handlerClick(watchedState, event);
       });
     });
 };

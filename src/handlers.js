@@ -3,7 +3,6 @@ import _ from 'lodash';
 import axios from 'axios';
 import validate from './validationURL.js';
 import parse from './parseRSS.js';
-import visualize from './view.js';
 
 const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`;
 
@@ -50,21 +49,19 @@ const makeResponse = (state, link) => {
     .then(() => setTimeout(() => additionalResponse(state), 5000));
 };
 
-export const handlerLangButton = (state, i18nInstance, event, elements) => {
+export const handlerLangButton = (watchedState, event, i18nInstance) => {
   if (event.target.classList.contains('langButton')) {
     const { lang } = event.target.dataset;
     i18nInstance.changeLanguage(lang);
-    const watchedState = visualize(state, i18nInstance, elements);
     watchedState.lang = i18nInstance.language;
   }
 };
 
-export const handlerForm = (state, i18nInstance, e, elements) => {
-  const watchedState = visualize(state, i18nInstance, elements);
-  e.preventDefault();
-  const formData = new FormData(e.target);
+export const handlerForm = (watchedState, event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
   const rssUrl = formData.get('url');
-  const errors = validate({ url: rssUrl }, state);
+  const errors = validate({ url: rssUrl }, watchedState);
   watchedState.rssForm.valid = errors.length === 0;
   if (!watchedState.rssForm.valid) {
     watchedState.rssForm.feedback = errors;
@@ -75,9 +72,8 @@ export const handlerForm = (state, i18nInstance, e, elements) => {
   }
 };
 
-export const handlerClick = (state, i18nInstance, event, elements) => {
+export const handlerClick = (watchedState, event) => {
   if (event.target.dataset.id) {
-    const watchedState = visualize(state, i18nInstance, elements);
     const viewedId = event.target.dataset.id;
     watchedState.ui.viewedPosts.add(viewedId);
     watchedState.ui.currentModalId = viewedId;
