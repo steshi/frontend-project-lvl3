@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import validate from './validationURL.js';
-import parse from './parseRSS.js';
+import normalize from './parseRSS.js';
 
 const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`;
 
@@ -11,7 +11,7 @@ const additionalResponse = (state) => {
   added.forEach((link) => {
     axios.get(proxify(link))
       .then((response) => {
-        const responseList = parse(response.data.contents);
+        const responseList = normalize(response.data.contents);
         const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
         newPosts.forEach((post) => {
           post.id = _.uniqueId();
@@ -27,7 +27,7 @@ const additionalResponse = (state) => {
 const makeResponse = (state, link) => {
   axios.get(proxify(link))
     .then((response) => {
-      const responseList = parse(response.data.contents);
+      const responseList = normalize(response.data.contents);
       responseList.posts.forEach((post) => {
         post.id = _.uniqueId();
       });
@@ -39,6 +39,7 @@ const makeResponse = (state, link) => {
       state.rssForm.state = 'successfully responsed';
     })
     .catch((e) => {
+      console.log(111111111, e);
       if (e.message === 'Network Error') {
         state.rssForm.feedback = 'errors.networkError';
       } else {

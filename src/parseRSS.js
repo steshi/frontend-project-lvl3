@@ -3,6 +3,11 @@ import _ from 'lodash';
 const parse = (rssXML) => {
   const parser = new DOMParser();
   const parsedRSS = parser.parseFromString(rssXML, 'text/xml');
+  return parsedRSS;
+};
+
+const normalize = (rssXML) => {
+  const parsedRSS = parse(rssXML);
   const items = parsedRSS.querySelectorAll('item');
   const feedTittle = parsedRSS.querySelector('title').textContent;
   const links = Array.from(items).map((item) => {
@@ -26,4 +31,4 @@ const parse = (rssXML) => {
   };
 };
 
-export default parse;
+export default normalize;

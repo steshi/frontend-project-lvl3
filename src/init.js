@@ -11,11 +11,11 @@ export default () => {
       feeds: [],
     },
     ui: {
-      currentModalId: '',
+      currentModalId: null,
       viewedPosts: new Set(),
     },
     rssForm: {
-      feedback: '',
+      feedback: null,
       state: 'init',
       valid: false,
       alreadyAddedRsss: [],
@@ -39,6 +39,7 @@ export default () => {
         modal: document.querySelector('#detailModal'),
       };
       const watchedState = visualize(state, i18nInstance, elements);
+
       document.querySelector('.langButtons').addEventListener('click', (event) => {
         handlerLangButton(watchedState, event, i18nInstance);
       });
