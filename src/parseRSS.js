@@ -1,8 +1,18 @@
 import _ from 'lodash';
 
+const parserError = (message) => {
+  const error = new Error(message);
+  error.name = 'ParserError';
+  return error;
+};
+
 const parse = (rssXML) => {
   const parser = new DOMParser();
   const parsedRSS = parser.parseFromString(rssXML, 'text/xml');
+  const error = parsedRSS.querySelector('parsererror');
+  if (error) {
+    throw parserError(error.textContent);
+  }
   return parsedRSS;
 };
 

@@ -51,4 +51,5 @@ export default () => {
         handlerClick(watchedState, event);
       });
     });
+  return i18nInstance.init();
 };
