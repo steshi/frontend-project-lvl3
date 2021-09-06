@@ -39,17 +39,12 @@ const makeResponse = (state, link) => {
       state.rssForm.state = 'successfully responsed';
     })
     .catch((e) => {
-      // console.log(111111111, e.name);
       if (e.name === 'ParserError') {
         state.rssForm.feedback = 'errors.noValidRss';
       } else {
         state.rssForm.feedback = 'errors.networkError';
       }
-      // if (e.message === 'Network Error') {
-      //   state.rssForm.feedback = 'errors.networkError';
-      // } else {
-      //   state.rssForm.feedback = 'errors.noValidRss';
-      // }
+
       state.rssForm.state = 'failed';
     })
     .then(() => setTimeout(() => additionalResponse(state), 5000));
