@@ -4,23 +4,22 @@ import axios from 'axios';
 import validate from './validationURL.js';
 import normalize from './parseRSS.js';
 
-const proxify = (url) => `https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`;
+const proxify = (link) => `https://hexlet-allorigins.herokuapp.com/get?url=${link}&disableCache=true`;
 
 const additionalResponse = (state) => {
   const added = state.rssForm.alreadyAddedRsss;
-  added.forEach((link) => {
-    axios.get(proxify(link))
-      .then((response) => {
-        const responseList = normalize(response.data.contents);
-        const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
-        newPosts.forEach((post) => {
-          post.id = _.uniqueId();
-        });
-        const posts = [...newPosts, ...state.data.posts];
-        state.data.posts = posts;
-        state.rssForm.state = 'posts updated';
-      });
-  });
+  const alreadyAddedPromises = added.map((feedLink) => axios.get(proxify(feedLink)));
+  const promise = Promise.all(alreadyAddedPromises);
+  promise.then(([...responses]) => responses.forEach((response) => {
+    const responseList = normalize(response.data.contents);
+    const newPosts = _.differenceBy(responseList.posts, state.data.posts, 'title');
+    newPosts.forEach((post) => {
+      post.id = _.uniqueId();
+    });
+    const posts = [...newPosts, ...state.data.posts];
+    state.data.posts = posts;
+    state.rssForm.state = 'posts updated';
+  }));
   setTimeout(() => additionalResponse(state), 5000);
 };
 
@@ -38,16 +37,15 @@ const makeResponse = (state, link) => {
       state.rssForm.feedback = 'success';
       state.rssForm.state = 'successfully responsed';
     })
+    .then(() => setTimeout(() => additionalResponse(state), 5000))
     .catch((e) => {
       if (e.name === 'ParserError') {
         state.rssForm.feedback = 'errors.noValidRss';
       } else {
         state.rssForm.feedback = 'errors.networkError';
       }
-
       state.rssForm.state = 'failed';
-    })
-    .then(() => setTimeout(() => additionalResponse(state), 5000));
+    });
 };
 
 export const handlerLangButton = (watchedState, event, i18nInstance) => {

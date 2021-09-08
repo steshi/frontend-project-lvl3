@@ -22,7 +22,7 @@ export default () => {
     },
   };
   const i18nInstance = i18n.createInstance();
-  i18nInstance
+  return i18nInstance
     .init({
       lng: 'ru',
       debug: false,
@@ -51,5 +51,4 @@ export default () => {
         handlerClick(watchedState, event);
       });
     });
-  return i18nInstance.init();
 };

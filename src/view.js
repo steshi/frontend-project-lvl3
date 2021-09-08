@@ -100,7 +100,7 @@ const render = (state, i18nInstance, elements) => {
       renderData(state, i18nInstance, elements);
       break;
     default:
-      elements.feedback.textContent = (elements.feedback.textContent === '') ? '' : i18nInstance.t(state.rssForm.feedback);
+      elements.feedback.textContent = i18nInstance.t(state.rssForm.feedback);
       renderData(state, i18nInstance, elements);
       break;
   }
